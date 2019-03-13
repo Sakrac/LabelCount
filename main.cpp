@@ -66,15 +66,15 @@ int main( int argc, char** argv )
 	}
 
 	char* endPtr;
-	int lo = strtoull( argv[ 2 ][ 0 ] == '$' ? argv[ 2 ] + 1 : argv[ 2 ], &endPtr, 16 );
-	int hi = strtoull( argv[ 3 ][ 0 ] == '$' ? argv[ 3 ] + 1 : argv[ 3 ], &endPtr, 16 );
+	int lo = (int)strtoull( argv[ 2 ][ 0 ] == '$' ? argv[ 2 ] + 1 : argv[ 2 ], &endPtr, 16 );
+	int hi = (int)strtoull( argv[ 3 ][ 0 ] == '$' ? argv[ 3 ] + 1 : argv[ 3 ], &endPtr, 16 );
 
 	if( !lo || !hi || hi < lo ) {
 		printf("Address range not understood\n");
 		return 1;
 	}
 
-	strref sym((const char*)symFile, symSize);
+	strref sym((const char*)symFile, (strl_t)symSize);
 
 	std::vector< unsigned int > hashes;
 	std::vector< strref > labels;
@@ -134,7 +134,7 @@ int main( int argc, char** argv )
 				size_t srcSize;
 				void* srcFile = load( file.c_str(), &srcSize );
 				if( srcFile ) {
-					strref src( (const char*)srcFile, srcSize );
+					strref src( (const char*)srcFile, ( strl_t )srcSize );
 					while( !src.is_empty() )
 					{
 						int lblLen = src.len_label();
